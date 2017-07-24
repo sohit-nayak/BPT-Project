@@ -15,6 +15,6 @@
     <color name="lbl_name">#333333</color>
     <color name="btn_knowyourclass_bg">#00bfff</color>
     <color name="btn_hitapi_bg">#228B22</color>
-    <color name="btn_logut_bg">#ff6861</color>
+    <color name="btn_logut_bg">#e50000</color>
 
 </resources>

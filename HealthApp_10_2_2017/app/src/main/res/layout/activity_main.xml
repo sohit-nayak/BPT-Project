@@ -6,7 +6,11 @@
     tools:context="${relativePackage}.${activityClass}" >
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="63dp">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -152,6 +156,17 @@
             android:gravity="right"
             android:padding="4dip" />
             </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Wbgt Value"
+                    android:padding="4dip" />
+                <TextView
+                    android:id="@+id/wbgt_value"
+                    android:gravity="right"
+                    android:padding="4dip" />
+            </TableRow>
+
             <TableRow>
             <TextView
                 android:id="@+id/yourhr"

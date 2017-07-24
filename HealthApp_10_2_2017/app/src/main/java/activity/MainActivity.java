@@ -100,6 +100,7 @@ public class MainActivity extends Activity {
 //    //static final String API_KEY = "54bc737d5875a0b8";
 //    static final String API_URL = "http://ergast.com/api/f1/2004/1/results.json";
 ////    static final String API_URL = "https://api.fullcontact.com/v2/person.json?";
+//    for checking
 //    //TILL HERE
 
     private SQLiteHandler db;
@@ -327,7 +328,7 @@ public class MainActivity extends Activity {
                 }
 
                 txtYourclass.setText(yourclass);
-                String phoneNumber = "9491970934";
+                String phoneNumber = "9932186594";
                 String smsBody = "You belong to "+ yourclass ;
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(phoneNumber, null, smsBody, null, null);
