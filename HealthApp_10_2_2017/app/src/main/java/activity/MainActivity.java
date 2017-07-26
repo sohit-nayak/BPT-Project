@@ -1,6 +1,7 @@
 package activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.apache.http.params.BasicHttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,6 +71,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.HttpsURLConnection;
+
+import static android.os.Build.ID;
+import static android.provider.MediaStore.Audio.AudioColumns.TRACK;
+import static android.provider.Telephony.Carriers.PASSWORD;
 //import javax.activation.DataHandler;
 
 //import weka.core.DenseInstance;
@@ -86,6 +92,7 @@ public class MainActivity extends Activity {
     private TextView txtYourapi;
     private TextView txtYourHr;
     private TextView txtyourcl;
+    private TextView wbgt_value;
     private Button btnLogout;
 //    private Button btnKnowyourclass;
     private Button btnHitAPI;
@@ -131,6 +138,7 @@ public class MainActivity extends Activity {
         txtYourHr = (TextView) findViewById(R.id.yourhr);
         txtyourcl = (TextView) findViewById(R.id.yourcl);
         btnLogout = (Button) findViewById(R.id.btnLogout);
+        wbgt_value = (TextView) findViewById(R.id.wbgt_value);
 //        btnKnowyourclass = (Button) findViewById(R.id.btnKnowyourclass);
         btnHitAPI = (Button) findViewById(R.id.btnHitAPI);
 //        btnSearch=(Button) findViewById(R.id.queryButton);
@@ -256,8 +264,56 @@ public class MainActivity extends Activity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
+        // extract wbgt value
+        getWbgt();
 
     }
+
+    public void getWbgt() {
+        class getJSON extends AsyncTask<String, Void, String> {
+            ProgressDialog loading;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(MainActivity.this, "Please Wait...", null, true, true);
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+
+                String uri = params[0];
+                BufferedReader bufferedReader = null;
+                try {
+                    URL url = new URL(uri);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    StringBuilder sb = new StringBuilder();
+
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String json;
+                    while ((json = bufferedReader.readLine(333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333)) != null) {
+                        sb.append(json + "\n");
+                    }
+
+                    return sb.toString().trim();
+
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                wbgt_value.setText(s);
+            }
+        }
+        getJSON gj = new getJSON();
+        gj.execute("http://www.vinaysammangi.esy.es/connect-1.php?id=1");
+    }
+
     public void sendsms(View view) {
 //        String phoneNumber = "9800116761";
 //        String message = "Welcome to sms";
@@ -331,7 +387,7 @@ public class MainActivity extends Activity {
                 String phoneNumber = "9932186594";
                 String smsBody = "You belong to "+ yourclass ;
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(phoneNumber, null, smsBody, null, null);
+//                smsManager.sendTextMessage(phoneNumber, null, smsBody, null, null);
                 return yourclass;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -496,5 +552,3 @@ public class MainActivity extends Activity {
     }
 
 }
-
-
